@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="rename" default="all">
 
 
@@ -25,6 +25,17 @@
         <exclude name="**/.IJI.*/**"/>
         <exclude name="**/vssver.scc/**"/>
         <exclude name="**/vssver2.scc/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/.git/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.zip"/>
+        <include name="*.war"/>
+        <include name="*.egg"/>
+        <include name="*.ear"/>
+        <include name="*.swc"/>
+        <include name="*.jar"/>
     </patternset>
     <patternset id="compiler.resources">
         <include name="**/?*.properties"/>
@@ -44,6 +55,82 @@
     <!-- Modules -->
 
 
+    <!-- Module JamesCookieGraphics -->
+
+    <dirname property="module.jamescookiegraphics.basedir" file="${ant.file}"/>
+
+
+    <property name="compiler.args.jamescookiegraphics" value="${compiler.args}"/>
+
+    <property name="jamescookiegraphics.output.dir"
+              value="${module.jamescookiegraphics.basedir}/../JamesCookieGraphics/classes"/>
+    <property name="jamescookiegraphics.testoutput.dir"
+              value="${module.jamescookiegraphics.basedir}/../JamesCookieGraphics/classes"/>
+
+    <path id="jamescookiegraphics.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="jamescookiegraphics.module.classpath">
+        <pathelement location="${basedir}/../JamesCookieGraphics/lib/jai_codec.jar"/>
+        <pathelement location="${basedir}/../JamesCookieGraphics/lib/jai_core.jar"/>
+    </path>
+
+    <path id="jamescookiegraphics.runtime.module.classpath">
+        <pathelement location="${jamescookiegraphics.output.dir}"/>
+        <pathelement location="${basedir}/../JamesCookieGraphics/lib/jai_codec.jar"/>
+        <pathelement location="${basedir}/../JamesCookieGraphics/lib/jai_core.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.jamescookiegraphics">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.jamescookiegraphics">
+        <patternset refid="excluded.from.module.jamescookiegraphics"/>
+    </patternset>
+
+    <path id="jamescookiegraphics.module.sourcepath">
+        <dirset dir="${module.jamescookiegraphics.basedir}/../JamesCookieGraphics">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.jamescookiegraphics"
+            depends="compile.module.jamescookiegraphics.production,compile.module.jamescookiegraphics.tests"
+            description="Compile module JamesCookieGraphics"/>
+
+    <target name="compile.module.jamescookiegraphics.production"
+            description="Compile module JamesCookieGraphics; production classes">
+        <mkdir dir="${jamescookiegraphics.output.dir}"/>
+        <javac destdir="${jamescookiegraphics.output.dir}" debug="${compiler.debug}"
+               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.jamescookiegraphics}"/>
+            <bootclasspath refid="jamescookiegraphics.module.bootclasspath"/>
+            <classpath refid="jamescookiegraphics.module.classpath"/>
+            <src refid="jamescookiegraphics.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.jamescookiegraphics"/>
+        </javac>
+
+        <copy todir="${jamescookiegraphics.output.dir}">
+            <fileset dir="${module.jamescookiegraphics.basedir}/../JamesCookieGraphics/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.jamescookiegraphics.tests" depends="compile.module.jamescookiegraphics.production"
+            description="compile module JamesCookieGraphics; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.jamescookiegraphics" description="cleanup module">
+        <delete dir="${jamescookiegraphics.output.dir}"/>
+        <delete dir="${jamescookiegraphics.testoutput.dir}"/>
+    </target>
+
+
     <!-- Module rename -->
 
     <dirname property="module.rename.basedir" file="${ant.file}"/>
@@ -58,11 +145,14 @@
         <!-- Paths to be included in compilation bootclasspath -->
     </path>
 
-    <path id="rename.module.classpath"/>
+    <path id="rename.module.classpath">
+        <pathelement location="${jamescookiegraphics.output.dir}"/>
+    </path>
 
     <path id="rename.runtime.module.classpath">
         <pathelement location="${rename.output.dir}"/>
         <pathelement location="${rename.testoutput.dir}"/>
+        <path refid="jamescookiegraphics.runtime.module.classpath"/>
     </path>
 
 
@@ -84,7 +174,8 @@
     <target name="compile.module.rename" depends="compile.module.rename.production,compile.module.rename.tests"
             description="Compile module rename"/>
 
-    <target name="compile.module.rename.production" description="Compile module rename; production classes">
+    <target name="compile.module.rename.production" depends="compile.module.jamescookiegraphics"
+            description="Compile module rename; production classes">
         <mkdir dir="${rename.output.dir}"/>
         <javac destdir="${rename.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
                memorymaximumsize="${compiler.max.memory}" fork="true">
@@ -105,6 +196,7 @@
 
     <target name="jar.module.rename" depends="compile.module.rename" description="Jar module rename">
         <jar basedir="${rename.output.dir}" destfile="renamer.jar">
+            <fileset dir="${jamescookiegraphics.output.dir}"/>
             <manifest>
                 <attribute name="Created-By" value="James Cook"/>
                 <attribute name="Manifest-Version" value="1.0"/>
@@ -125,7 +217,8 @@
         <!-- Perform any build initialization in this target -->
     </target>
 
-    <target name="clean" depends="clean.module.rename" description="cleanup all"/>
+    <target name="clean" depends="clean.module.jamescookiegraphics, clean.module.rename" description="cleanup all"/>
 
-    <target name="all" depends="init, clean, compile.module.rename" description="build all"/>
+    <target name="all" depends="init, clean, compile.module.jamescookiegraphics, compile.module.rename"
+            description="build all"/>
 </project>

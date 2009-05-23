@@ -62,11 +62,12 @@ public class Utils {
 
         for (File file : filesList) {
             String fileName = file.getName();
-            file.renameTo(new File(directory, SAFE_PREFIX + fileName));
-            File newfile = new File(directory, fileName);
+            File newfile = new File(directory, SAFE_PREFIX + fileName);
             try {
                 FileOutputStream out = new FileOutputStream(newfile);
                 ImageManipulator im = new ImageManipulator(file, out);
+                String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+                im.setOutputImageType(ext);
 
                 if (im.getWidth() > im.getHeight()) {
                     scale = (double) im.getWidth() * ((double) size / 100 );
@@ -74,11 +75,11 @@ public class Utils {
                     scale = (double) im.getHeight() * ((double) size / 100 );
                 }
 
-                im.createThumbnail(scale.intValue());
+                im.writeThumbnail(scale.intValue());
                 out.flush();
                 out.close();
-//                file.delete();
-//                newfile.renameTo(new File(directory, fileName));
+                file.delete();
+                newfile.renameTo(new File(directory, fileName));
             } catch (Exception e) {
                 e.printStackTrace();
             }

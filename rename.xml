@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="rename" default="all">
+
+
+    <property file="rename.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+   <property name="skip.tests" value="true"/>
+    -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="128m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.sbas/**"/>
+        <exclude name="**/.IJI.*/**"/>
+        <exclude name="**/vssver.scc/**"/>
+        <exclude name="**/vssver2.scc/**"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+    </patternset>
+
+
+    <!-- Global Libraries -->
+
+    <!-- Modules -->
+
+
+    <!-- Module rename -->
+
+    <dirname property="module.rename.basedir" file="${ant.file}"/>
+
+
+    <property name="compiler.args.rename" value="${compiler.args}"/>
+
+    <property name="rename.output.dir" value="${module.rename.basedir}/classes/production/rename"/>
+    <property name="rename.testoutput.dir" value="${module.rename.basedir}/classes/test/rename"/>
+
+    <path id="rename.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="rename.module.classpath"/>
+
+    <path id="rename.runtime.module.classpath">
+        <pathelement location="${rename.output.dir}"/>
+        <pathelement location="${rename.testoutput.dir}"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.rename">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.rename">
+        <patternset refid="excluded.from.module.rename"/>
+    </patternset>
+
+    <path id="rename.module.sourcepath">
+        <dirset dir="${module.rename.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.rename" depends="compile.module.rename.production,compile.module.rename.tests"
+            description="Compile module rename"/>
+
+    <target name="compile.module.rename.production" description="Compile module rename; production classes">
+        <mkdir dir="${rename.output.dir}"/>
+        <javac destdir="${rename.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+               memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.rename}"/>
+            <bootclasspath refid="rename.module.bootclasspath"/>
+            <classpath refid="rename.module.classpath"/>
+            <src refid="rename.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.rename"/>
+        </javac>
+
+        <copy todir="${rename.output.dir}">
+            <fileset dir="${module.rename.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar.module.rename" depends="compile.module.rename" description="Jar module rename">
+        <jar basedir="${rename.output.dir}" destfile="renamer.jar">
+            <manifest>
+                <attribute name="Created-By" value="James Cook"/>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Main-Class" value="rename.Rename"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile.module.rename.tests" depends="compile.module.rename.production"
+            description="compile module rename; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.rename" description="cleanup module">
+        <delete dir="${rename.output.dir}"/>
+        <delete dir="${rename.testoutput.dir}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.rename" description="cleanup all"/>
+
+    <target name="all" depends="init, clean, compile.module.rename" description="build all"/>
+</project>

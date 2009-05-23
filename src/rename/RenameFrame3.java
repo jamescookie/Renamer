@@ -1,17 +1,9 @@
 package rename;
 
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JFileChooser;
-import java.awt.AWTEvent;
-import java.awt.Dimension;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Comparator;
 
@@ -29,11 +21,11 @@ public class RenameFrame3 extends JFrame {
     private JRadioButton renameRadioButton;
     private JRadioButton resizeRadioButton;
     private JRadioButton bothRadioButton;
-    private JTextField txtReduce;
+    private JTextField txtResize;
 
     public RenameFrame3() {
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-        this.setSize(new Dimension(350, 249));
+        this.setSize(new Dimension(360, 290));
         this.setTitle("File Renamer");
         this.setContentPane(mainPanel);
 
@@ -54,7 +46,9 @@ public class RenameFrame3 extends JFrame {
         });
     }
 
-    /**Overridden so we can exit when window is closed*/
+    /**
+     * Overridden so we can exit when window is closed
+     */
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
@@ -87,38 +81,65 @@ public class RenameFrame3 extends JFrame {
     }
 
     private void btnOK_actionPerformed() {
-        if (goodString(lblPath.getText()) &&
-            goodString(txtFile.getText()) &&
-            goodString(txtExt.getText())) {
+        if (renameRadioButton.isSelected() || bothRadioButton.isSelected()) {
+            if (goodString(lblPath.getText()) &&
+                goodString(txtFile.getText()) &&
+                goodString(txtExt.getText())) {
 
-            Comparator<File> c = null;
-            if (chkName.isSelected()) {
-                c = new FileNameComparator();
-            } else if (chkDate.isSelected()) {
-                c = new FileDateComparator();
-            }
-
-            int start = 1;
-
-            if (goodString(txtStart.getText())) {
-                try {
-                    start = Integer.parseInt(txtStart.getText());
-                } catch (NumberFormatException e1) {
-                    start = 1;
+                Comparator<File> c = null;
+                if (chkName.isSelected()) {
+                    c = new FileNameComparator();
+                } else if (chkDate.isSelected()) {
+                    c = new FileDateComparator();
                 }
+
+                int start = 1;
+
+                if (goodString(txtStart.getText())) {
+                    try {
+                        start = Integer.parseInt(txtStart.getText());
+                    } catch (NumberFormatException e1) {
+                        start = 1;
+                    }
+                }
+
+                Utils.doUpdate(lblPath.getText(), txtFile.getText(), txtExt.getText(), c, start);
+
+                JOptionPane.showMessageDialog(this,
+                        "Renaming done.",
+                        "Information",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Input Stuff.",
+                        "Information",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+        if (resizeRadioButton.isSelected() || bothRadioButton.isSelected()) {
+            if (goodString(lblPath.getText()) &&
+                goodString(txtResize.getText())) {
 
-            Utils.doUpdate(lblPath.getText(), txtFile.getText(), txtExt.getText(), c, start);
+                int size;
+                try {
+                    size = Integer.parseInt(txtResize.getText());
+                } catch (NumberFormatException e1) {
+                    size = 100;
+                }
 
-            JOptionPane.showMessageDialog(this,
-                "Done.",
-                "Information",
-                JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Input Stuff.",
-                "Information",
-                JOptionPane.INFORMATION_MESSAGE);
+                Utils.doResize(lblPath.getText(), size);
+
+                JOptionPane.showMessageDialog(this,
+                        "Resize done.",
+                        "Information",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Input Stuff.",
+                        "Information",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            }
         }
     }
 

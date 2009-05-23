@@ -373,8 +373,85 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="http://192.168.0.10/svn/Java/branches">
+                    <value>
+                      <list>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1190360772000" />
+                          <option name="revision" value="150" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/branches/aaa" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1128537444000" />
+                          <option name="revision" value="61" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/branches/pants" />
+                        </SvnBranchItem>
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="http://192.168.0.10/svn/Java/tags">
+                    <value>
+                      <list>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1190360773000" />
+                          <option name="revision" value="152" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/v01" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1136487745000" />
+                          <option name="revision" value="90" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/V3_0" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1129750162000" />
+                          <option name="revision" value="75" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/V2_0" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1128542825000" />
+                          <option name="revision" value="70" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/V1_8" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1128537445000" />
+                          <option name="revision" value="63" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/v1_7" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1125953316000" />
+                          <option name="revision" value="48" />
+                          <option name="url" value="http://192.168.0.10/svn/Java/tags/v16" />
+                        </SvnBranchItem>
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="branchUrls">
+                <list>
+                  <option value="http://192.168.0.10/svn/Java/branches" />
+                  <option value="http://192.168.0.10/svn/Java/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="http://192.168.0.10/svn/Java/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="myVersion" value="124" />
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">

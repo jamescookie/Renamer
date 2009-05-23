@@ -190,7 +190,7 @@
           <text value="Both"/>
         </properties>
       </component>
-      <component id="b6809" class="javax.swing.JTextField" binding="txtReduce">
+      <component id="b6809" class="javax.swing.JTextField" binding="txtResize">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="30" height="-1"/>

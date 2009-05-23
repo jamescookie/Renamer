@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project relativePaths="false" version="4">
+<project relativePaths="true" version="4">
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
     <buildFile url="file://$PROJECT_DIR$/rename.xml">
@@ -353,6 +353,7 @@
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../JamesCookieGraphics/JamesCookieGraphics.iml" filepath="$PROJECT_DIR$/../JamesCookieGraphics/JamesCookieGraphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/rename.iml" filepath="$PROJECT_DIR$/rename.iml" />
     </modules>
   </component>
@@ -452,6 +453,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../JamesCookieGraphics" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
